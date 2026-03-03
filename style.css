@@ -5,96 +5,67 @@ padding:0;
 }
 
 body{
-font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;
-color:#ddd;
-background:#05080c;
+font-family:"Noto Sans JP",sans-serif;
+color:#d8e0d2;
+
+background:
+radial-gradient(circle at 15% 20%, rgba(255,0,0,.08), transparent 40%),
+radial-gradient(circle at 80% 30%, rgba(0,255,150,.05), transparent 50%),
+linear-gradient(135deg,#050705,#0a0f0a,#030403,#000);
+
+background-size:400% 400%;
+animation:bgmove 30s ease infinite;
+
 min-height:100vh;
-position:relative;
-overflow-x:hidden;
 }
 
-/* ===== リアル工業歯車背景 ===== */
+@keyframes bgmove{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
 
-body::before,
+/* ===== 赤LED点滅 ===== */
+
 body::after{
 content:"";
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-pointer-events:none;
-z-index:-1;
+top:15px;
+right:20px;
+width:10px;
+height:10px;
+border-radius:50%;
+background:#ff0000;
+box-shadow:
+0 0 10px #ff0000,
+0 0 20px rgba(255,0,0,.8);
+animation:ledBlink 1.2s infinite;
+z-index:2000;
 }
 
-/* ===== レイヤー1（奥・遅い） ===== */
+@keyframes ledBlink{
+0%{opacity:1;}
+50%{opacity:.2;}
+100%{opacity:1;}
+}
+
+/* ===== HUDグリッド ===== */
 
 body::before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:-1;
+opacity:.12;
 background:
-url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>\
-<g fill='%23222'>\
-<circle cx='100' cy='100' r='55'/>\
-</g>\
-<g stroke='%23444' stroke-width='10'>\
-<circle cx='100' cy='100' r='40' fill='none'/>\
-</g>\
-</svg>") 15% 20%/420px no-repeat,
-url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>\
-<g fill='%23282828'>\
-<circle cx='100' cy='100' r='50'/>\
-</g>\
-<g stroke='%23555' stroke-width='8'>\
-<circle cx='100' cy='100' r='35' fill='none'/>\
-</g>\
-</svg>") 75% 70%/360px no-repeat;
-
-animation:gearSlow 90s linear infinite;
-filter:blur(2px);
-opacity:.35;
+repeating-linear-gradient(0deg, rgba(120,255,120,.05) 0px, rgba(120,255,120,.05) 1px, transparent 1px, transparent 24px),
+repeating-linear-gradient(90deg, rgba(120,255,120,.04) 0px, rgba(120,255,120,.04) 1px, transparent 1px, transparent 24px);
 }
 
-/* ===== レイヤー2（中間） ===== */
-
-body::after{
-background:
-url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>\
-<g fill='%23303030'>\
-<circle cx='100' cy='100' r='45'/>\
-</g>\
-<g stroke='%23666' stroke-width='8'>\
-<circle cx='100' cy='100' r='30' fill='none'/>\
-</g>\
-</svg>") 40% 30%/260px no-repeat,
-url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>\
-<g fill='%23262626'>\
-<circle cx='100' cy='100' r='35'/>\
-</g>\
-<g stroke='%23777' stroke-width='6'>\
-<circle cx='100' cy='100' r='20' fill='none'/>\
-</g>\
-</svg>") 70% 40%/200px no-repeat;
-
-animation:gearFast 35s linear infinite reverse;
-opacity:.55;
-}
-
-/* ===== 回転アニメーション ===== */
-
-@keyframes gearSlow{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
-}
-
-@keyframes gearFast{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(-360deg);}
-}
-
-/* ===== 既存UIそのまま ===== */
+/* ============================= */
+/* ヘッダー */
+/* ============================= */
 
 .header{
 position:fixed;
@@ -105,85 +76,144 @@ height:65px;
 display:flex;
 align-items:center;
 justify-content:center;
-background:linear-gradient(#05080c,#000);
-border-bottom:1px solid #ff8800;
-box-shadow:0 0 15px #ff880033,inset 0 -1px 0 #ff880055;
+background:#0b0f0b;
+border-bottom:2px solid #8b0000;
+box-shadow:
+0 0 25px rgba(139,0,0,.4),
+inset 0 -1px 0 rgba(255,255,255,.05);
 z-index:100;
 }
 
 .logoText{
 font-size:22px;
-font-weight:700;
+font-weight:900;
 letter-spacing:4px;
-color:#ff8800;
-text-shadow:0 0 6px #ff8800aa;
+color:#c9d4b5;
+text-shadow:0 0 6px rgba(255,0,0,.5);
 }
+
+/* ============================= */
+/* レイアウト */
+/* ============================= */
 
 .container{
 max-width:1400px;
 margin:80px auto;
-padding:20px;
+padding:15px;
 display:flex;
 gap:20px;
 }
 
+/* ============================= */
+/* パネル */
+/* ============================= */
+
 .panel{
-background:linear-gradient(180deg,#0a0f14,#05080c);
-border-radius:12px;
+position:relative;
+background:linear-gradient(180deg,#111611,#070a07);
+border-radius:10px;
 padding:16px;
-border:1px solid #ff880044;
-box-shadow:0 0 15px #000 inset,0 0 20px #000;
+overflow:hidden;
+border:1px solid rgba(120,255,120,.2);
+box-shadow:
+0 0 20px rgba(0,0,0,.6),
+inset 0 0 15px rgba(0,0,0,.8);
 }
 
-.categories{width:230px;}
-.products{width:420px;}
-.detail{flex:1;}
-
-.categoryBtn{
-padding:10px 14px;
-margin:6px 0;
-cursor:pointer;
-border-radius:8px;
-background:linear-gradient(#0f1620,#0a1118);
-border:1px solid #ff880033;
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.categoryBtn img{
-width:32px;
-height:32px;
-object-fit:cover;
-border-radius:6px;
-}
+/* ===== ターゲットロック風アニメ ===== */
 
 .card{
 display:flex;
-gap:12px;
-padding:12px;
+gap:14px;
+padding:16px;
 margin-bottom:12px;
 cursor:pointer;
-border-radius:10px;
-background:linear-gradient(#0b1218,#060b10);
-border:1px solid #ff880033;
+border-radius:8px;
+background:linear-gradient(180deg,#111511,#070907);
+border:1px solid rgba(120,255,120,.2);
+transition:.25s;
+position:relative;
+overflow:hidden;
+}
+
+/* ターゲットスキャン円 */
+.card::after{
+content:"";
+position:absolute;
+top:50%;
+left:50%;
+width:0;
+height:0;
+border:2px solid rgba(255,0,0,.8);
+border-radius:50%;
+transform:translate(-50%,-50%);
+opacity:0;
+pointer-events:none;
+}
+
+.card:hover::after{
+animation:lockOn 0.6s forwards;
+}
+
+@keyframes lockOn{
+0%{
+width:0;
+height:0;
+opacity:1;
+}
+100%{
+width:140%;
+height:140%;
+opacity:0;
+}
+}
+
+.card:hover{
+border:1px solid rgba(255,0,0,.8);
+box-shadow:0 0 20px rgba(255,0,0,.5);
+transform:translateY(-2px);
 }
 
 .card img{
 width:90px;
 height:90px;
+border-radius:6px;
 object-fit:cover;
-border-radius:8px;
+border:1px solid rgba(255,0,0,.3);
 }
 
 .title{
 font-size:16px;
-font-weight:700;
+font-weight:900;
+color:#ffffff;
+letter-spacing:1px;
 }
 
 .desc{
-white-space:normal;
-line-height:1.7;
+white-space:pre-line;
+line-height:1.8;
+color:#cfd8c2;
+}
+
+.detail{
+min-height:500px;
+}
+
+.detail img{
+max-width:100%;
+height:auto;
+display:block;
+margin-top:15px;
+border-radius:8px;
+border:1px solid rgba(255,0,0,.3);
+}
+
+.detail iframe{
+width:100%;
+height:350px;
+margin-top:15px;
+border-radius:8px;
+border:1px solid rgba(255,0,0,.3);
 }
 
 .modal{
@@ -192,21 +222,91 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:#000;
-padding:40px;
+background:#050705;
+padding:30px;
 display:none;
 overflow:auto;
 z-index:9999;
 }
 
+.modal img{
+max-width:100%;
+height:auto;
+margin-top:20px;
+border-radius:8px;
+border:1px solid rgba(255,0,0,.3);
+}
+
 .modal iframe{
 width:100%;
 height:420px;
+margin-top:20px;
+border-radius:8px;
+border:1px solid rgba(255,0,0,.3);
+}
+
+.closeBtn{
+margin-bottom:20px;
+padding:12px 24px;
+border-radius:6px;
+border:1px solid rgba(255,0,0,.6);
+background:#0b0f0b;
+color:#ff4d4d;
+cursor:pointer;
+font-size:16px;
+transition:.2s;
+}
+
+.closeBtn:hover{
+box-shadow:0 0 15px rgba(255,0,0,.6);
+}
+
+::-webkit-scrollbar{
+width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#8b0000;
+border-radius:10px;
 }
 
 @media(max-width:700px){
-.container{flex-direction:column;margin-top:70px;}
-.categories,.products{width:100%;}
-.detail{display:none;}
-.modal iframe{height:250px;}
+
+.container{
+flex-direction:column;
+margin-top:70px;
+}
+
+.categories,
+.products{
+width:100%;
+min-width:100%;
+max-width:100%;
+}
+
+.categories{
+overflow-x:auto;
+overflow-y:hidden;
+}
+
+#categoryList{
+display:flex;
+flex-wrap:nowrap;
+gap:12px;
+padding-bottom:10px;
+}
+
+.categoryBtn{
+flex:0 0 auto;
+min-width:140px;
+}
+
+.detail{
+display:none;
+}
+
+.modal iframe{
+height:250px;
+}
+
 }
