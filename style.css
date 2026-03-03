@@ -5,33 +5,80 @@ padding:0;
 }
 
 body{
+
 font-family:"Noto Sans JP",sans-serif;
 color:#d8e0d2;
 
-background:
-radial-gradient(circle at 15% 20%, rgba(255,0,0,.08), transparent 40%),
-radial-gradient(circle at 80% 30%, rgba(0,255,150,.05), transparent 50%),
-linear-gradient(135deg,#050705,#0a0f0a,#030403,#000);
+/* ===== WARZONE BASE ===== */
 
-background-size:400% 400%;
-animation:bgmove 30s ease infinite;
+background:
+radial-gradient(circle at 20% 30%, rgba(255,0,0,.08), transparent 40%),
+radial-gradient(circle at 80% 70%, rgba(255,50,0,.05), transparent 50%),
+linear-gradient(160deg,#040504,#0a0f0a,#020302,#000);
+
+background-size:200% 200%;
+animation:bgShift 25s ease infinite;
 
 min-height:100vh;
+position:relative;
+overflow-x:hidden;
+
 }
 
-@keyframes bgmove{
+@keyframes bgShift{
 0%{background-position:0% 50%;}
 50%{background-position:100% 50%;}
 100%{background-position:0% 50%;}
 }
 
-/* ===== 赤LED点滅 ===== */
+/* ===== ノイズレイヤー ===== */
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:-2;
+opacity:.05;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* ===== レーダースイープ ===== */
 
 body::after{
 content:"";
 position:fixed;
-top:15px;
+top:-50%;
+left:-50%;
+width:200%;
+height:200%;
+pointer-events:none;
+z-index:-1;
+
+background:
+conic-gradient(
+rgba(255,0,0,.15) 0deg,
+rgba(255,0,0,.08) 10deg,
+transparent 30deg
+);
+
+animation:radar 8s linear infinite;
+transform-origin:center;
+opacity:.4;
+}
+
+@keyframes radar{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+/* ===== 赤LED点滅 ===== */
+
+.header::after{
+content:"";
+position:absolute;
 right:20px;
+top:26px;
 width:10px;
 height:10px;
 border-radius:50%;
@@ -40,27 +87,12 @@ box-shadow:
 0 0 10px #ff0000,
 0 0 20px rgba(255,0,0,.8);
 animation:ledBlink 1.2s infinite;
-z-index:2000;
 }
 
 @keyframes ledBlink{
 0%{opacity:1;}
-50%{opacity:.2;}
+50%{opacity:.3;}
 100%{opacity:1;}
-}
-
-/* ===== HUDグリッド ===== */
-
-body::before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-z-index:-1;
-opacity:.12;
-background:
-repeating-linear-gradient(0deg, rgba(120,255,120,.05) 0px, rgba(120,255,120,.05) 1px, transparent 1px, transparent 24px),
-repeating-linear-gradient(90deg, rgba(120,255,120,.04) 0px, rgba(120,255,120,.04) 1px, transparent 1px, transparent 24px);
 }
 
 /* ============================= */
@@ -114,13 +146,75 @@ background:linear-gradient(180deg,#111611,#070a07);
 border-radius:10px;
 padding:16px;
 overflow:hidden;
-border:1px solid rgba(120,255,120,.2);
+border:1px solid rgba(120,255,120,.15);
 box-shadow:
-0 0 20px rgba(0,0,0,.6),
-inset 0 0 15px rgba(0,0,0,.8);
+0 0 20px rgba(0,0,0,.7),
+inset 0 0 15px rgba(0,0,0,.9);
 }
 
-/* ===== ターゲットロック風アニメ ===== */
+/* ============================= */
+/* 幅固定（変更なし） */
+/* ============================= */
+
+.categories{
+width:260px;
+min-width:260px;
+max-width:260px;
+overflow-x:auto;
+overflow-y:hidden;
+padding-bottom:10px;
+}
+
+.products{
+width:420px;
+min-width:420px;
+}
+
+.detail{
+flex:1;
+min-width:300px;
+}
+
+/* ============================= */
+/* カテゴリ */
+/* ============================= */
+
+#categoryList{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
+
+.categoryBtn{
+flex:0 0 auto;
+min-width:150px;
+cursor:pointer;
+border-radius:6px;
+background:linear-gradient(180deg,#141a14,#090c09);
+border:1px solid rgba(255,0,0,.25);
+display:flex;
+align-items:center;
+gap:8px;
+padding:10px;
+transition:.2s;
+}
+
+.categoryBtn:hover{
+border:1px solid rgba(255,0,0,.8);
+box-shadow:0 0 15px rgba(255,0,0,.3);
+}
+
+.categoryBtn img{
+width:26px;
+height:26px;
+border-radius:4px;
+object-fit:cover;
+border:1px solid rgba(255,0,0,.3);
+}
+
+/* ============================= */
+/* 商品カード */
+/* ============================= */
 
 .card{
 display:flex;
@@ -136,7 +230,6 @@ position:relative;
 overflow:hidden;
 }
 
-/* ターゲットスキャン円 */
 .card::after{
 content:"";
 position:absolute;
@@ -148,7 +241,6 @@ border:2px solid rgba(255,0,0,.8);
 border-radius:50%;
 transform:translate(-50%,-50%);
 opacity:0;
-pointer-events:none;
 }
 
 .card:hover::after{
@@ -156,21 +248,13 @@ animation:lockOn 0.6s forwards;
 }
 
 @keyframes lockOn{
-0%{
-width:0;
-height:0;
-opacity:1;
-}
-100%{
-width:140%;
-height:140%;
-opacity:0;
-}
+0%{width:0;height:0;opacity:1;}
+100%{width:140%;height:140%;opacity:0;}
 }
 
 .card:hover{
 border:1px solid rgba(255,0,0,.8);
-box-shadow:0 0 20px rgba(255,0,0,.5);
+box-shadow:0 0 20px rgba(255,0,0,.4);
 transform:translateY(-2px);
 }
 
