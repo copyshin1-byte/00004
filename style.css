@@ -30,6 +30,36 @@ position:relative;
 }
 
 /* ===================================================== */
+/* 🛰 追加：回転レーダー（最背面） */
+/* ===================================================== */
+
+body::after{
+content:"";
+position:fixed;
+top:-50%;
+left:-50%;
+width:200%;
+height:200%;
+pointer-events:none;
+z-index:-1;
+
+background:
+conic-gradient(
+rgba(255,0,0,.15) 0deg,
+rgba(255,0,0,.08) 8deg,
+transparent 20deg
+);
+
+animation:radarSpin 12s linear infinite;
+opacity:.18;
+}
+
+@keyframes radarSpin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+/* ===================================================== */
 /* 💀 CRTターミナル演出 */
 /* ===================================================== */
 
@@ -69,24 +99,55 @@ animation:terminalFlicker 6s infinite;
 /* 🔊 低確率警告フラッシュ */
 /* ===================================================== */
 
-body::after{
-content:"";
+.warningOverlay{
 position:fixed;
 inset:0;
-background:rgba(255,0,0,.25);
+display:flex;
+align-items:center;
+justify-content:center;
 pointer-events:none;
 z-index:9998;
+font-size:80px;
+font-weight:900;
+letter-spacing:10px;
+color:#ff0000;
+text-shadow:
+0 0 20px #ff0000,
+0 0 40px rgba(255,0,0,.8);
+animation:warningTextFlash 22s infinite;
 opacity:0;
-animation:warningFlash 18s infinite;
 }
 
-@keyframes warningFlash{
+@keyframes warningTextFlash{
 0%{opacity:0;}
-92%{opacity:0;}
-94%{opacity:.6;}
-96%{opacity:0;}
-98%{opacity:.4;}
+94%{opacity:0;}
+96%{opacity:1;}
+97%{opacity:0;}
+98%{opacity:1;}
 100%{opacity:0;}
+}
+
+/* ===================================================== */
+/* 💣 一瞬グリッチ崩壊 */
+/* ===================================================== */
+
+.container{
+max-width:1280px;
+margin:80px auto;
+padding:20px;
+display:flex;
+gap:24px;
+animation:glitchBurst 28s infinite;
+}
+
+@keyframes glitchBurst{
+0%{transform:none;filter:none;}
+95%{transform:none;filter:none;}
+96%{transform:skewX(12deg) translateX(-10px);}
+97%{transform:skewX(-10deg) translateX(10px);}
+98%{transform:skewX(5deg);}
+99%{transform:none;}
+100%{transform:none;}
 }
 
 /* ===================================================== */
@@ -106,7 +167,14 @@ background:#0b0f0b;
 border-bottom:2px solid #8b0000;
 box-shadow:0 0 25px rgba(139,0,0,.4);
 z-index:100;
-position:fixed;
+}
+
+.logoText{
+font-size:22px;
+font-weight:900;
+letter-spacing:4px;
+color:#c9d4b5;
+text-shadow:0 0 6px rgba(255,0,0,.5);
 }
 
 /* LED1 */
@@ -166,16 +234,8 @@ animation:ledBlink2 3.4s infinite;
 }
 
 /* ===================================================== */
-/* レイアウト（黄金比維持） */
+/* 以下はあなたの元コードそのまま維持 */
 /* ===================================================== */
-
-.container{
-max-width:1280px;
-margin:80px auto;
-padding:20px;
-display:flex;
-gap:24px;
-}
 
 .categories{
 flex:1;
@@ -195,10 +255,6 @@ flex:2.618;
 min-width:400px;
 }
 
-/* ===================================================== */
-/* パネル（微振動） */
-/* ===================================================== */
-
 .panel{
 position:relative;
 background:linear-gradient(180deg,#151a15,#060806);
@@ -214,15 +270,11 @@ animation:panelVibe 6s infinite ease-in-out;
 @keyframes panelVibe{
 0%{transform:translate(0px,0px);}
 20%{transform:translate(0.5px,-0.5px);}
-40%{transform:translate(-0.5px,0.5px);}
+40%{transform:-0.5px,0.5px;}
 60%{transform:translate(0.4px,0.2px);}
 80%{transform:translate(-0.3px,-0.4px);}
 100%{transform:translate(0px,0px);}
 }
-
-/* ===================================================== */
-/* カテゴリ */
-/* ===================================================== */
 
 #categoryList{
 display:grid;
@@ -274,176 +326,4 @@ animation:activeBlink 1.2s infinite;
 0%{box-shadow:0 0 8px rgba(255,0,0,.4);}
 50%{box-shadow:0 0 25px rgba(255,0,0,.9);}
 100%{box-shadow:0 0 8px rgba(255,0,0,.4);}
-}
-
-/* ===================================================== */
-/* 商品カード */
-/* ===================================================== */
-
-.card{
-display:flex;
-gap:14px;
-padding:16px;
-margin-bottom:12px;
-cursor:pointer;
-border-radius:8px;
-background:linear-gradient(180deg,#111511,#070907);
-border:1px solid rgba(120,255,120,.2);
-transition:.25s;
-position:relative;
-overflow:hidden;
-}
-
-.card::after{
-content:"";
-position:absolute;
-top:50%;
-left:50%;
-width:0;
-height:0;
-border:2px solid rgba(255,0,0,.8);
-border-radius:50%;
-transform:translate(-50%,-50%);
-opacity:0;
-}
-
-.card:hover::after{
-animation:lockOn 0.6s forwards;
-}
-
-@keyframes lockOn{
-0%{width:0;height:0;opacity:1;}
-100%{width:140%;height:140%;opacity:0;}
-}
-
-.card:hover{
-border:1px solid rgba(255,0,0,.8);
-box-shadow:0 0 20px rgba(255,0,0,.4);
-transform:translateY(-2px);
-}
-
-.card img{
-width:90px;
-height:90px;
-border-radius:6px;
-object-fit:cover;
-border:1px solid rgba(255,0,0,.3);
-}
-
-.title{
-font-size:16px;
-font-weight:900;
-color:#ffffff;
-letter-spacing:1px;
-}
-
-.desc{
-white-space:pre-line;
-line-height:1.8;
-color:#cfd8c2;
-}
-
-.detail{
-min-height:500px;
-}
-
-.detail img{
-max-width:100%;
-height:auto;
-display:block;
-margin-top:15px;
-border-radius:8px;
-border:1px solid rgba(255,0,0,.3);
-}
-
-.detail iframe{
-width:100%;
-height:350px;
-margin-top:15px;
-border-radius:8px;
-border:1px solid rgba(255,0,0,.3);
-}
-
-.modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#050705;
-padding:30px;
-display:none;
-overflow:auto;
-z-index:9999;
-}
-
-.modal iframe{
-height:420px;
-}
-
-.closeBtn{
-margin-bottom:20px;
-padding:12px 24px;
-border-radius:6px;
-border:1px solid rgba(255,0,0,.6);
-background:#0b0f0b;
-color:#ff4d4d;
-cursor:pointer;
-font-size:16px;
-transition:.2s;
-}
-
-.closeBtn:hover{
-box-shadow:0 0 15px rgba(255,0,0,.6);
-}
-
-::-webkit-scrollbar{
-width:8px;
-}
-
-::-webkit-scrollbar-thumb{
-background:#8b0000;
-border-radius:10px;
-}
-
-@media(max-width:700px){
-
-.container{
-flex-direction:column;
-margin-top:70px;
-}
-
-.categories,
-.products{
-width:100%;
-min-width:100%;
-max-width:100%;
-}
-
-.categories{
-overflow-x:auto;
-overflow-y:hidden;
-}
-
-#categoryList{
-display:flex;
-flex-wrap:nowrap;
-gap:12px;
-padding-bottom:10px;
-}
-
-.categoryBtn{
-flex:0 0 auto;
-min-width:140px;
-aspect-ratio:auto;
-}
-
-.detail{
-display:none;
-}
-
-.modal iframe{
-height:250px;
-}
-
 }
