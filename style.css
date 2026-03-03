@@ -30,7 +30,7 @@ position:relative;
 }
 
 /* ===================================================== */
-/* 💀 ガチ軍用ターミナルUI化（CRT・スキャンライン） */
+/* 💀 CRTターミナル演出 */
 /* ===================================================== */
 
 body::before{
@@ -55,7 +55,6 @@ opacity:.4;
 animation:terminalFlicker 6s infinite;
 }
 
-/* 端末チラつき */
 @keyframes terminalFlicker{
 0%{opacity:.35;}
 5%{opacity:.5;}
@@ -91,7 +90,7 @@ animation:warningFlash 18s infinite;
 }
 
 /* ===================================================== */
-/* ヘッダー */
+/* 🔴🔴 不規則2連LED */
 /* ===================================================== */
 
 .header{
@@ -107,14 +106,63 @@ background:#0b0f0b;
 border-bottom:2px solid #8b0000;
 box-shadow:0 0 25px rgba(139,0,0,.4);
 z-index:100;
+position:fixed;
 }
 
-.logoText{
-font-size:22px;
-font-weight:900;
-letter-spacing:4px;
-color:#c9d4b5;
-text-shadow:0 0 6px rgba(255,0,0,.5);
+/* LED1 */
+.header::after{
+content:"";
+position:absolute;
+right:28px;
+top:50%;
+transform:translateY(-50%);
+width:10px;
+height:10px;
+border-radius:50%;
+background:#ff0000;
+box-shadow:
+0 0 6px #ff0000,
+0 0 14px rgba(255,0,0,.8),
+0 0 22px rgba(255,0,0,.5);
+animation:ledBlink1 2.7s infinite;
+}
+
+/* LED2 */
+.header::before{
+content:"";
+position:absolute;
+right:14px;
+top:50%;
+transform:translateY(-50%);
+width:10px;
+height:10px;
+border-radius:50%;
+background:#ff1a1a;
+box-shadow:
+0 0 6px #ff0000,
+0 0 14px rgba(255,0,0,.8),
+0 0 22px rgba(255,0,0,.5);
+animation:ledBlink2 3.4s infinite;
+}
+
+@keyframes ledBlink1{
+0%{opacity:1;}
+12%{opacity:.2;}
+18%{opacity:1;}
+36%{opacity:.4;}
+40%{opacity:1;}
+72%{opacity:.3;}
+100%{opacity:1;}
+}
+
+@keyframes ledBlink2{
+0%{opacity:.3;}
+15%{opacity:1;}
+27%{opacity:.2;}
+48%{opacity:1;}
+63%{opacity:.3;}
+78%{opacity:1;}
+100%{opacity:.4;}
 }
 
 /* ===================================================== */
@@ -148,7 +196,7 @@ min-width:400px;
 }
 
 /* ===================================================== */
-/* パネル（微振動維持） */
+/* パネル（微振動） */
 /* ===================================================== */
 
 .panel{
@@ -160,7 +208,6 @@ border:1px solid rgba(255,0,0,.25);
 box-shadow:
 0 20px 50px rgba(0,0,0,.9),
 inset 0 0 25px rgba(0,0,0,.9);
-
 animation:panelVibe 6s infinite ease-in-out;
 }
 
@@ -174,7 +221,7 @@ animation:panelVibe 6s infinite ease-in-out;
 }
 
 /* ===================================================== */
-/* カテゴリ（正方形カード維持） */
+/* カテゴリ */
 /* ===================================================== */
 
 #categoryList{
@@ -214,8 +261,6 @@ box-shadow:
 0 0 18px rgba(255,0,0,.45);
 border:1px solid rgba(255,0,0,.8);
 }
-
-/* 🔥 選択中カテゴリ点滅維持 */
 
 .categoryBtn.active{
 border:1px solid #ff0000;
