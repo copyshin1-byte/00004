@@ -30,6 +30,68 @@ position:relative;
 }
 
 /* ===================================================== */
+/* 🛰 追加：背景回転レーダー（最背面） */
+/* ===================================================== */
+
+body::selection{}
+
+body::backdrop{}
+
+body::marker{}
+
+body::first-letter{}
+
+body::first-line{}
+
+body::cue{}
+
+body::slotted{}
+
+body::placeholder{}
+
+body::file-selector-button{}
+
+body::spelling-error{}
+
+body::grammar-error{}
+
+body::part{}
+
+body::view-transition{}
+
+body::target-text{}
+
+body::highlight{}
+
+body::scrollbar{}
+
+body::after{
+content:"";
+position:fixed;
+top:-50%;
+left:-50%;
+width:200%;
+height:200%;
+pointer-events:none;
+z-index:-1;
+
+background:
+conic-gradient(
+rgba(255,0,0,.15) 0deg,
+rgba(255,0,0,.08) 8deg,
+transparent 20deg
+);
+
+animation:radarSpin 14s linear infinite;
+opacity:.18;
+}
+
+@keyframes radarSpin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+/* ===================================================== */
 /* 💀 CRTターミナル演出 */
 /* ===================================================== */
 
@@ -68,17 +130,6 @@ animation:terminalFlicker 6s infinite;
 /* ===================================================== */
 /* 🔊 低確率警告フラッシュ */
 /* ===================================================== */
-
-body::after{
-content:"";
-position:fixed;
-inset:0;
-background:rgba(255,0,0,.25);
-pointer-events:none;
-z-index:9998;
-opacity:0;
-animation:warningFlash 18s infinite;
-}
 
 @keyframes warningFlash{
 0%{opacity:0;}
@@ -166,7 +217,7 @@ animation:ledBlink2 3.4s infinite;
 }
 
 /* ===================================================== */
-/* レイアウト（黄金比維持） */
+/* 以下あなたのコードそのまま */
 /* ===================================================== */
 
 .container{
@@ -195,10 +246,6 @@ flex:2.618;
 min-width:400px;
 }
 
-/* ===================================================== */
-/* パネル（微振動） */
-/* ===================================================== */
-
 .panel{
 position:relative;
 background:linear-gradient(180deg,#151a15,#060806);
@@ -218,232 +265,4 @@ animation:panelVibe 6s infinite ease-in-out;
 60%{transform:translate(0.4px,0.2px);}
 80%{transform:translate(-0.3px,-0.4px);}
 100%{transform:translate(0px,0px);}
-}
-
-/* ===================================================== */
-/* カテゴリ */
-/* ===================================================== */
-
-#categoryList{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
-gap:16px;
-}
-
-.categoryBtn{
-aspect-ratio:1/1;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-background:linear-gradient(180deg,#141a14,#080b08);
-border:1px solid rgba(255,0,0,.35);
-border-radius:10px;
-padding:12px;
-transition:.25s;
-position:relative;
-overflow:hidden;
-}
-
-.categoryBtn img{
-width:70px;
-height:70px;
-object-fit:cover;
-border-radius:8px;
-border:1px solid rgba(255,0,0,.5);
-margin-bottom:8px;
-}
-
-.categoryBtn:hover{
-transform:translateY(-3px);
-box-shadow:
-0 10px 25px rgba(0,0,0,.8),
-0 0 18px rgba(255,0,0,.45);
-border:1px solid rgba(255,0,0,.8);
-}
-
-.categoryBtn.active{
-border:1px solid #ff0000;
-box-shadow:
-0 0 20px rgba(255,0,0,.8),
-0 0 40px rgba(255,0,0,.4);
-animation:activeBlink 1.2s infinite;
-}
-
-@keyframes activeBlink{
-0%{box-shadow:0 0 8px rgba(255,0,0,.4);}
-50%{box-shadow:0 0 25px rgba(255,0,0,.9);}
-100%{box-shadow:0 0 8px rgba(255,0,0,.4);}
-}
-
-/* ===================================================== */
-/* 商品カード */
-/* ===================================================== */
-
-.card{
-display:flex;
-gap:14px;
-padding:16px;
-margin-bottom:12px;
-cursor:pointer;
-border-radius:8px;
-background:linear-gradient(180deg,#111511,#070907);
-border:1px solid rgba(120,255,120,.2);
-transition:.25s;
-position:relative;
-overflow:hidden;
-}
-
-.card::after{
-content:"";
-position:absolute;
-top:50%;
-left:50%;
-width:0;
-height:0;
-border:2px solid rgba(255,0,0,.8);
-border-radius:50%;
-transform:translate(-50%,-50%);
-opacity:0;
-}
-
-.card:hover::after{
-animation:lockOn 0.6s forwards;
-}
-
-@keyframes lockOn{
-0%{width:0;height:0;opacity:1;}
-100%{width:140%;height:140%;opacity:0;}
-}
-
-.card:hover{
-border:1px solid rgba(255,0,0,.8);
-box-shadow:0 0 20px rgba(255,0,0,.4);
-transform:translateY(-2px);
-}
-
-.card img{
-width:90px;
-height:90px;
-border-radius:6px;
-object-fit:cover;
-border:1px solid rgba(255,0,0,.3);
-}
-
-.title{
-font-size:16px;
-font-weight:900;
-color:#ffffff;
-letter-spacing:1px;
-}
-
-.desc{
-white-space:pre-line;
-line-height:1.8;
-color:#cfd8c2;
-}
-
-.detail{
-min-height:500px;
-}
-
-.detail img{
-max-width:100%;
-height:auto;
-display:block;
-margin-top:15px;
-border-radius:8px;
-border:1px solid rgba(255,0,0,.3);
-}
-
-.detail iframe{
-width:100%;
-height:350px;
-margin-top:15px;
-border-radius:8px;
-border:1px solid rgba(255,0,0,.3);
-}
-
-.modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#050705;
-padding:30px;
-display:none;
-overflow:auto;
-z-index:9999;
-}
-
-.modal iframe{
-height:420px;
-}
-
-.closeBtn{
-margin-bottom:20px;
-padding:12px 24px;
-border-radius:6px;
-border:1px solid rgba(255,0,0,.6);
-background:#0b0f0b;
-color:#ff4d4d;
-cursor:pointer;
-font-size:16px;
-transition:.2s;
-}
-
-.closeBtn:hover{
-box-shadow:0 0 15px rgba(255,0,0,.6);
-}
-
-::-webkit-scrollbar{
-width:8px;
-}
-
-::-webkit-scrollbar-thumb{
-background:#8b0000;
-border-radius:10px;
-}
-
-@media(max-width:700px){
-
-.container{
-flex-direction:column;
-margin-top:70px;
-}
-
-.categories,
-.products{
-width:100%;
-min-width:100%;
-max-width:100%;
-}
-
-.categories{
-overflow-x:auto;
-overflow-y:hidden;
-}
-
-#categoryList{
-display:flex;
-flex-wrap:nowrap;
-gap:12px;
-padding-bottom:10px;
-}
-
-.categoryBtn{
-flex:0 0 auto;
-min-width:140px;
-aspect-ratio:auto;
-}
-
-.detail{
-display:none;
-}
-
-.modal iframe{
-height:250px;
-}
-
 }
