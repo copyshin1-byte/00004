@@ -1,14 +1,8 @@
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+*{ box-sizing:border-box; margin:0; padding:0; }
 
-body{
-font-family:"Noto Sans JP",sans-serif;
-color:#d8e0d2;
+body{ font-family:"Noto Sans JP",sans-serif; color:#d8e0d2;
 
-background:
+background: 
 radial-gradient(circle at 20% 30%, rgba(255,0,0,.08), transparent 40%),
 radial-gradient(circle at 80% 70%, rgba(255,50,0,.05), transparent 50%),
 linear-gradient(160deg,#040504,#0a0f0a,#020302,#000);
@@ -16,8 +10,8 @@ linear-gradient(160deg,#040504,#0a0f0a,#020302,#000);
 background-size:200% 200%;
 animation:bgShift 25s ease infinite;
 
-min-height:100vh;
-overflow-x:hidden;
+min-height:100vh; 
+overflow-x:hidden; 
 position:relative;
 }
 
@@ -33,8 +27,7 @@ position:relative;
 /* 🛰 追加：回転レーダー（最背面） */
 /* ===================================================== */
 
-body::after{
-content:"";
+body .radarLayer{
 position:fixed;
 top:-50%;
 left:-50%;
@@ -42,15 +35,13 @@ width:200%;
 height:200%;
 pointer-events:none;
 z-index:-1;
-
 background:
 conic-gradient(
 rgba(255,0,0,.15) 0deg,
 rgba(255,0,0,.08) 8deg,
 transparent 20deg
 );
-
-animation:radarSpin 12s linear infinite;
+animation:radarSpin 14s linear infinite;
 opacity:.18;
 }
 
@@ -63,15 +54,9 @@ opacity:.18;
 /* 💀 CRTターミナル演出 */
 /* ===================================================== */
 
-body::before{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-z-index:9999;
+body::before{ content:""; position:fixed; inset:0; pointer-events:none; z-index:9999;
 
-background:
-repeating-linear-gradient(
+background: repeating-linear-gradient(
 0deg,
 rgba(255,0,0,.03) 0px,
 rgba(255,0,0,.03) 1px,
@@ -80,10 +65,7 @@ transparent 4px
 ),
 radial-gradient(circle at center, rgba(255,0,0,.06), transparent 70%);
 
-mix-blend-mode:screen;
-opacity:.4;
-animation:terminalFlicker 6s infinite;
-}
+mix-blend-mode:screen; opacity:.4; animation:terminalFlicker 6s infinite; }
 
 @keyframes terminalFlicker{
 0%{opacity:.35;}
@@ -99,119 +81,26 @@ animation:terminalFlicker 6s infinite;
 /* 🔊 低確率警告フラッシュ */
 /* ===================================================== */
 
-.warningOverlay{
-position:fixed;
-inset:0;
-display:flex;
-align-items:center;
-justify-content:center;
-pointer-events:none;
-z-index:9998;
-font-size:80px;
-font-weight:900;
-letter-spacing:10px;
-color:#ff0000;
-text-shadow:
-0 0 20px #ff0000,
-0 0 40px rgba(255,0,0,.8);
-animation:warningTextFlash 22s infinite;
-opacity:0;
-}
+body::after{ content:""; position:fixed; inset:0; background:rgba(255,0,0,.25); pointer-events:none; z-index:9998; opacity:0; animation:warningFlash 18s infinite; }
 
-@keyframes warningTextFlash{
+@keyframes warningFlash{
 0%{opacity:0;}
-94%{opacity:0;}
-96%{opacity:1;}
-97%{opacity:0;}
-98%{opacity:1;}
+92%{opacity:0;}
+94%{opacity:.6;}
+96%{opacity:0;}
+98%{opacity:.4;}
 100%{opacity:0;}
-}
-
-/* ===================================================== */
-/* 💣 一瞬グリッチ崩壊 */
-/* ===================================================== */
-
-.container{
-max-width:1280px;
-margin:80px auto;
-padding:20px;
-display:flex;
-gap:24px;
-animation:glitchBurst 28s infinite;
-}
-
-@keyframes glitchBurst{
-0%{transform:none;filter:none;}
-95%{transform:none;filter:none;}
-96%{transform:skewX(12deg) translateX(-10px);}
-97%{transform:skewX(-10deg) translateX(10px);}
-98%{transform:skewX(5deg);}
-99%{transform:none;}
-100%{transform:none;}
 }
 
 /* ===================================================== */
 /* 🔴🔴 不規則2連LED */
 /* ===================================================== */
 
-.header{
-position:fixed;
-top:0;
-left:0;
-right:0;
-height:65px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:#0b0f0b;
-border-bottom:2px solid #8b0000;
-box-shadow:0 0 25px rgba(139,0,0,.4);
-z-index:100;
-}
+.header{ position:fixed; top:0; left:0; right:0; height:65px; display:flex; align-items:center; justify-content:center; background:#0b0f0b; border-bottom:2px solid #8b0000; box-shadow:0 0 25px rgba(139,0,0,.4); z-index:100; }
 
-.logoText{
-font-size:22px;
-font-weight:900;
-letter-spacing:4px;
-color:#c9d4b5;
-text-shadow:0 0 6px rgba(255,0,0,.5);
-}
+.header::after{ content:""; position:absolute; right:28px; top:50%; transform:translateY(-50%); width:10px; height:10px; border-radius:50%; background:#ff0000; box-shadow:0 0 6px #ff0000,0 0 14px rgba(255,0,0,.8),0 0 22px rgba(255,0,0,.5); animation:ledBlink1 2.7s infinite; }
 
-/* LED1 */
-.header::after{
-content:"";
-position:absolute;
-right:28px;
-top:50%;
-transform:translateY(-50%);
-width:10px;
-height:10px;
-border-radius:50%;
-background:#ff0000;
-box-shadow:
-0 0 6px #ff0000,
-0 0 14px rgba(255,0,0,.8),
-0 0 22px rgba(255,0,0,.5);
-animation:ledBlink1 2.7s infinite;
-}
-
-/* LED2 */
-.header::before{
-content:"";
-position:absolute;
-right:14px;
-top:50%;
-transform:translateY(-50%);
-width:10px;
-height:10px;
-border-radius:50%;
-background:#ff1a1a;
-box-shadow:
-0 0 6px #ff0000,
-0 0 14px rgba(255,0,0,.8),
-0 0 22px rgba(255,0,0,.5);
-animation:ledBlink2 3.4s infinite;
-}
+.header::before{ content:""; position:absolute; right:14px; top:50%; transform:translateY(-50%); width:10px; height:10px; border-radius:50%; background:#ff1a1a; box-shadow:0 0 6px #ff0000,0 0 14px rgba(255,0,0,.8),0 0 22px rgba(255,0,0,.5); animation:ledBlink2 3.4s infinite; }
 
 @keyframes ledBlink1{
 0%{opacity:1;}
@@ -234,93 +123,37 @@ animation:ledBlink2 3.4s infinite;
 }
 
 /* ===================================================== */
-/* 以下はあなたの元コードそのまま維持 */
+/* 以下あなたのコードそのまま */
 /* ===================================================== */
 
-.categories{
-flex:1;
-min-width:220px;
-max-width:260px;
-overflow-x:auto;
-overflow-y:hidden;
-}
+.container{ max-width:1280px; margin:80px auto; padding:20px; display:flex; gap:24px; }
 
-.products{
-flex:1.618;
-min-width:360px;
-}
+.categories{ flex:1; min-width:220px; max-width:260px; overflow-x:auto; overflow-y:hidden; }
 
-.detail{
-flex:2.618;
-min-width:400px;
-}
+.products{ flex:1.618; min-width:360px; }
 
-.panel{
-position:relative;
-background:linear-gradient(180deg,#151a15,#060806);
-border-radius:14px;
-padding:18px;
-border:1px solid rgba(255,0,0,.25);
-box-shadow:
-0 20px 50px rgba(0,0,0,.9),
-inset 0 0 25px rgba(0,0,0,.9);
-animation:panelVibe 6s infinite ease-in-out;
-}
+.detail{ flex:2.618; min-width:400px; }
+
+.panel{ position:relative; background:linear-gradient(180deg,#151a15,#060806); border-radius:14px; padding:18px; border:1px solid rgba(255,0,0,.25); box-shadow:0 20px 50px rgba(0,0,0,.9), inset 0 0 25px rgba(0,0,0,.9); animation:panelVibe 6s infinite ease-in-out; }
 
 @keyframes panelVibe{
 0%{transform:translate(0px,0px);}
 20%{transform:translate(0.5px,-0.5px);}
-40%{transform:-0.5px,0.5px;}
+40%{transform:translate(-0.5px,0.5px);}
 60%{transform:translate(0.4px,0.2px);}
 80%{transform:translate(-0.3px,-0.4px);}
 100%{transform:translate(0px,0px);}
 }
 
-#categoryList{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
-gap:16px;
-}
+#categoryList{ display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:16px; }
 
-.categoryBtn{
-aspect-ratio:1/1;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-background:linear-gradient(180deg,#141a14,#080b08);
-border:1px solid rgba(255,0,0,.35);
-border-radius:10px;
-padding:12px;
-transition:.25s;
-position:relative;
-overflow:hidden;
-}
+.categoryBtn{ aspect-ratio:1/1; display:flex; flex-direction:column; align-items:center; justify-content:center; background:linear-gradient(180deg,#141a14,#080b08); border:1px solid rgba(255,0,0,.35); border-radius:10px; padding:12px; transition:.25s; position:relative; overflow:hidden; }
 
-.categoryBtn img{
-width:70px;
-height:70px;
-object-fit:cover;
-border-radius:8px;
-border:1px solid rgba(255,0,0,.5);
-margin-bottom:8px;
-}
+.categoryBtn img{ width:70px; height:70px; object-fit:cover; border-radius:8px; border:1px solid rgba(255,0,0,.5); margin-bottom:8px; }
 
-.categoryBtn:hover{
-transform:translateY(-3px);
-box-shadow:
-0 10px 25px rgba(0,0,0,.8),
-0 0 18px rgba(255,0,0,.45);
-border:1px solid rgba(255,0,0,.8);
-}
+.categoryBtn:hover{ transform:translateY(-3px); box-shadow:0 10px 25px rgba(0,0,0,.8),0 0 18px rgba(255,0,0,.45); border:1px solid rgba(255,0,0,.8); }
 
-.categoryBtn.active{
-border:1px solid #ff0000;
-box-shadow:
-0 0 20px rgba(255,0,0,.8),
-0 0 40px rgba(255,0,0,.4);
-animation:activeBlink 1.2s infinite;
-}
+.categoryBtn.active{ border:1px solid #ff0000; box-shadow:0 0 20px rgba(255,0,0,.8),0 0 40px rgba(255,0,0,.4); animation:activeBlink 1.2s infinite; }
 
 @keyframes activeBlink{
 0%{box-shadow:0 0 8px rgba(255,0,0,.4);}
